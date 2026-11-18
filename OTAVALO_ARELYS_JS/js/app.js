@@ -23,7 +23,24 @@ do {
 
     switch (opc) {
         case "1": {
-            let nombre = prompt("Ingresa el nombre del comprador:");
+            let nombre;
+            let nombreValido = false;
+
+            do {
+                nombre = prompt("Ingresa el nombre del comprador:");
+                if (nombre === null) {
+                    alert("Error: debes ingresar un nombre.");
+                } else {
+                    nombre = nombre.trim();
+                    if (/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]+$/.test(nombre)) {
+                        nombreValido = true;
+                    } else {
+                        alert("Error: el nombre solo puede contener letras.");
+                    }
+                }
+            } while (!nombreValido);
+
+
             let tipo;
             let tipoParticipante;
             let descuentoPorcentaje;
@@ -55,13 +72,8 @@ do {
             let cantidadTexto = prompt("Ingresa la cantidad de entradas (1 a 5):");
             let cantidad = Number(cantidadTexto);
 
-            if (
-                cantidadTexto === null ||
-                !Number.isInteger(cantidad) ||
-                cantidad < 1 ||
-                cantidad > maximoEntradas
-            ) {
-                alert("Compra rechazada: ingresa un número entero entre 1 y 5.");
+            if ( cantidadTexto === null || !Number.isInteger(cantidad) || cantidad < 1 || cantidad > maximoEntradas) {
+                alert("Compra rechazada: debe ingresar un número entero entre 1 y 5.");
             } else if (cantidad > cuposDisponibles) {
                 alert("Compra rechazada: no hay suficientes cupos disponibles.");
             } else {
@@ -123,10 +135,13 @@ do {
 
         case "4":
             alert(
-                "---- SALIENDO ----\n" 
-                
+                "---- RESUMEN FINAL ----\n" +
+                "Entradas vendidas: " + totalEntradasVendidas + "\n" +
+                "Ingresos acumulados: $" + totalIngresos.toFixed(2) + "\n" +
+                "Compras realizadas: " + numeroCompras + "\n" +
+                "Cupos restantes: " + cuposDisponibles + "\n\n" +
+                "Gracias por utilizar Innova ESPE 2026"
             );
-
             break;
 
         default:
